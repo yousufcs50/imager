@@ -61,6 +61,18 @@ const LoginForm = () => {
 	return (
 		<div className="page">
 			<div className="cover">
+				<div className="image-holder">
+					{/* <img
+						href="%PUBLIC_URL%/canyon.ico"
+						alt="Profile"
+						className="profile-image"
+					/> */}
+					<img
+						src={process.env.PUBLIC_URL + "/canyon.ico"}
+						alt="User Profile"
+						className="profile-image"
+					/>
+				</div>
 				<form onSubmit={handleSubmit}>
 					<div className="login-text">
 						<h2>Login</h2>

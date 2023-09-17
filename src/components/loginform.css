@@ -81,7 +81,24 @@ input:focus {
     border-radius: 1%;
     cursor: pointer;
 }
-
+.image-holder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2em;
+  }
+  
+  .profile-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #ffffff; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Placeholder background */
+  }
+  
 
 .login-text {
     text-align: center;
