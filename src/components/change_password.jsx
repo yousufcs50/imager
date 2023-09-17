@@ -4,6 +4,7 @@ import { host, login_controller } from "../constants";
 import { validatePassword } from "../utils";
 import axios from "axios";
 import Sidebar from "./sidebar/sidebar";
+import { Button } from "bootstrap";
 
 const dashboardStyle = {
 	display: "flex",
@@ -29,21 +30,22 @@ const separator2 = {
 	borderTop: "1px #b2d85f",
 };
 
-const buttonStyle = {
+const buttonStyle = (buttonHover) => ({
 	padding: "2% 2%",
 	display: "flex-filled",
-	backgroundColor: "#b2d85f",
+	backgroundColor: buttonHover ? "#3a8d20" : "#4CAF50",
 	border: "none",
 	borderRadius: "0.5em",
 	color: "white",
 	boxShadow: "0.2% 0 1% rgba(0, 0, 0, 0.1)",
 	cursor: "pointer",
 	transition: "background-color 0.3s",
-};
+});
 
 const ChangePassword = () => {
 	const [Password, setPassword] = useState("");
 	const [newPassword, setNewPassword] = useState("");
+	const [buttonHover, setbuttonHover] = useState(false);
 	const [retypePassword, setRetypePassword] = useState("");
 	const [showModal, setShowModal] = useState(false);
 	const [modalMessage, setModalMessage] = useState("");
@@ -123,9 +125,14 @@ const ChangePassword = () => {
 					onChange={(e) => setRetypePassword(e.target.value)}
 				/>
 				<hr style={separator2} />
-				<div style={buttonStyle} onClick={handleChangePassword}>
+				<button
+					style={buttonStyle(buttonHover)}
+					onMouseEnter={() => setbuttonHover(true)}
+					onMouseLeave={() => setbuttonHover(false)}
+					onClick={handleChangePassword}
+				>
 					Change Password
-				</div>
+				</button>
 			</div>
 			<MyModal
 				show={showModal}

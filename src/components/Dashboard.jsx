@@ -32,37 +32,22 @@ const foldersStyle = {
 const separator = {
 	margin: "20px 0",
 	border: "0",
-	borderTop: "1px solid #b2d85f",
+	borderTop: "1px solid ",
 };
 const folderStyle = {
-	width: "25%",
+	width: "20%",
 	textAlign: "center",
 };
 const buttonStyle = {
 	padding: "2% 2%",
 	display: "space-around",
-	backgroundColor: "#b2d85f",
+	backgroundColor: "#4CAF50",
 	border: "none",
 	borderRadius: "0.5em",
 	color: "white",
 	boxShadow: "0.2% 0 1% rgba(0, 0, 0, 0.1)",
 	cursor: "pointer",
-	transition: "0.5",
-	transition: "background-color 0.3s",
 };
-
-// const popupStylez = {
-// 	position: "fixed",
-// 	justifyContent: "space-between",
-// 	top: "50%",
-// 	left: "50%",
-// 	transform: "translate(-50%, -50%)",
-// 	backgroundColor: "#EBF4E5",
-// 	padding: "2% 2%",
-// 	width: "30%",
-// 	boxShadow: "5% 5% 1% rgba(0, 0, 0, 0.1)",
-// 	borderRadius: "0.5em",
-// };
 const popupStyle = {
 	position: "fixed",
 	justifyContent: "space-between",
@@ -156,6 +141,19 @@ function Dashboard() {
 					<div style={containerStyle}>
 						<h2>Welcome {name}</h2>
 						<button style={buttonStyle} onClick={() => setShowPopup(true)}>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="20"
+								height="20"
+								fill="currentColor"
+								class="bi bi-plus-lg"
+								viewBox="0 0 20 20"
+							>
+								<path
+									fill-rule="evenodd"
+									d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"
+								/>
+							</svg>
 							Create New Folder
 						</button>
 					</div>
@@ -163,14 +161,27 @@ function Dashboard() {
 					<div style={foldersStyle}>
 						{folders.map((folder, index) => (
 							<div key={index} style={folderStyle}>
-								<a href={"/preds/" + folder}>
+								<a
+									href={"/preds/" + folder}
+									style={{ color: "inherit", textDecoration: "none" }}
+								>
 									<img src={logo} alt="Folder Icon" />
-									<p>{folder}</p>
+									<h4>{folder}</h4> {/* Color set to white */}
 								</a>
 								<button
 									style={buttonStyle}
 									onClick={() => handleDeleteClick(folder)}
 								>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										width="16"
+										height="16"
+										fill="currentColor"
+										class="bi bi-trash-fill"
+										viewBox="0 0 20 20"
+									>
+										<path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+									</svg>
 									Delete
 								</button>
 							</div>
@@ -183,17 +194,19 @@ function Dashboard() {
 								folder name if the folder is not created
 							</p>
 							<input type="text" placeholder="Folder Name" id="folderName" />
-							<button
-								style={buttonStyle}
-								onClick={() =>
-									handleAddFolder(document.getElementById("folderName").value)
-								}
-							>
-								Create
-							</button>
-							<button style={buttonStyle} onClick={() => setShowPopup(false)}>
-								Cancel
-							</button>
+							<div style={{ display: "flex", justifyContent: "space-between" }}>
+								<button
+									style={buttonStyle}
+									onClick={() =>
+										handleAddFolder(document.getElementById("folderName").value)
+									}
+								>
+									Create
+								</button>
+								<button style={buttonStyle} onClick={() => setShowPopup(false)}>
+									Cancel
+								</button>
+							</div>
 						</div>
 					)}
 					{showPopup2 && (

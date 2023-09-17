@@ -9,6 +9,8 @@ import MyModal from "./Modal/modal";
 const CreateUser = () => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const [buttonHover, setbuttonHover] = useState(false);
+
 	// State to manage modal visibility
 	const [isModalVisible, setShowModal] = useState(false);
 	const [modalMessage, setModalMessage] = useState("");
@@ -85,17 +87,17 @@ const CreateUser = () => {
 		borderTop: "1px #b2d85f",
 	};
 
-	const buttonStyle = {
+	const buttonStyle = (buttonHover) => ({
 		padding: "2% 2%",
 		display: "flex-filled",
-		backgroundColor: "#b2d85f",
+		backgroundColor: buttonHover ? "#3a8d20" : "#4CAF50",
 		border: "none",
 		borderRadius: "0.5em",
 		color: "white",
 		boxShadow: "0.2% 0 1% rgba(0, 0, 0, 0.1)",
 		cursor: "pointer",
 		transition: "background-color 0.3s",
-	};
+	});
 
 	return (
 		<div style={dashboardStyle}>
@@ -120,7 +122,12 @@ const CreateUser = () => {
 						onChange={(e) => setPassword(e.target.value)}
 					/>
 					<hr style={separator2} />
-					<button style={buttonStyle} type="submit">
+					<button
+						style={buttonStyle(buttonHover)}
+						onMouseEnter={() => setbuttonHover(true)}
+						onMouseLeave={() => setbuttonHover(false)}
+						type="submit"
+					>
 						Create User
 					</button>
 				</form>

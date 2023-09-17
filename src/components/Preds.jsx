@@ -12,14 +12,6 @@ const dashboardStyle = {
 	fontFamily: '"Lato", sans-serif',
 };
 
-const sidebarStyle = {
-	width: "20%",
-	backgroundColor: "#d7e8e3",
-	padding: "2%",
-	height: "100%",
-	boxShadow: "0.2% 0 1% rgba(0, 0, 0, 0.1)",
-};
-
 const content = {
 	flex: 1,
 	padding: "2%",
@@ -47,14 +39,14 @@ const uploadInput = {
 	margin: "1% 0",
 };
 
-const predictionButton = {
-	backgroundColor: "#007bff",
+const predictionButton = (isHovered) => ({
+	backgroundColor: isHovered ? "#3a8d40" : "#4CAF50",
 	color: "white",
 	padding: "1% 2%",
 	border: "none",
 	borderRadius: "0.4em",
 	cursor: "pointer",
-};
+});
 
 const messageStyle = {
 	color: "green",
@@ -68,6 +60,8 @@ const separator = {
 function Preds() {
 	const { folderName } = useParams();
 	const [uploadedFiles, setUploadedFiles] = useState([]);
+	const [predshover, setpredshover] = useState(false);
+	const [downloadHover, setdownloadHover] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 	const [modalMessage, setModalMessage] = useState("");
 	const [uploadCompleteMessage, setUploadCompleteMessage] = useState(false);
@@ -143,7 +137,12 @@ function Preds() {
 
 					<div style={stepContainerStyle}>
 						<h2>Step 2:</h2>
-						<button style={predictionButton} onClick={pred_folder}>
+						<button
+							style={predictionButton(predshover)}
+							onMouseEnter={() => setpredshover(true)}
+							onMouseLeave={() => setpredshover(false)}
+							onClick={pred_folder}
+						>
 							Get Predictions
 						</button>
 					</div>
@@ -152,10 +151,22 @@ function Preds() {
 					<div style={stepContainerStyle}>
 						<h2>Step 3:</h2>
 						<button
-							style={predictionButton}
+							style={predictionButton(downloadHover)}
+							onMouseEnter={() => setdownloadHover(true)}
+							onMouseLeave={() => setdownloadHover(false)}
 							onClick={() => downloads(folderName)}
 						>
-							Download All Files
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="20"
+								height="20"
+								fill="currentColor"
+								className="bi bi-file-earmark-arrow-down-fill"
+								viewBox="0 0 20 20"
+							>
+								<path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zm-1 4v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 11.293V7.5a.5.5 0 0 1 1 0z" />
+							</svg>
+							Download all files
 						</button>
 					</div>
 				</div>

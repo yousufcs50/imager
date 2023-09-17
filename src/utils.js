@@ -54,8 +54,8 @@ export const downloads = async (folder) => {
 		console.log(folder);
 		const s3 = new AWS.S3();
 		const bucketName = "canyon-creek-cuts";
-		const s3_folder = `cropped_images/${folder}//Predicted_images/`;
-		// s3://canyon-creek-cuts/cropped_images/test_003//Predicted_images/
+		const s3_folder = `cropped_images/${folder}/Predicted_images/`;
+
 		const params = {
 			Bucket: bucketName,
 			Prefix: s3_folder, // if your folder is named 'my-folder/', set Prefix: 'my-folder/'

@@ -31,6 +31,7 @@ const LoginForm = () => {
 		try {
 			// Make the API call
 			const api = host + login_controller + "login";
+			// console.log(process.env.REACT_APP_API);
 			const response = await axios.post(api, JSON.stringify(data), {
 				headers: {
 					"Content-Type": "application/json",
