@@ -137,6 +137,7 @@ function Preds() {
 
 					<div style={stepContainerStyle}>
 						<h2>Step 2:</h2>
+						<p>Start this process only if all images have been uploaded</p>
 						<button
 							style={predictionButton(predshover)}
 							onMouseEnter={() => setpredshover(true)}

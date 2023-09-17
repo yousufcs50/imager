@@ -54,7 +54,7 @@ export const downloads = async (folder) => {
 		console.log(folder);
 		const s3 = new AWS.S3();
 		const bucketName = "canyon-creek-cuts";
-		const s3_folder = `cropped_images/${folder}/Predicted_images/`;
+		const s3_folder = `cropped_images/${folder}//Predicted_images/`;
 
 		const params = {
 			Bucket: bucketName,

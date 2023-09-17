@@ -34,10 +34,12 @@ const separator = {
 	border: "0",
 	borderTop: "1px solid ",
 };
-const folderStyle = {
+const folderStyle = (isHovered) => ({
+	// your existing styles
 	width: "20%",
 	textAlign: "center",
-};
+	backgroundColor: isHovered ? "#D3D3D3" : "#ebf4f1",
+});
 const buttonStyle = {
 	padding: "2% 2%",
 	display: "space-around",
@@ -67,9 +69,18 @@ function Dashboard() {
 		const [showPopup, setShowPopup] = useState(false);
 		const [showPopup2, setShowPopup2] = useState(false);
 		const [folderToDelete, setFolderToDelete] = useState(null);
+		const [hoveredFolder, setHoveredFolder] = useState(null);
 		const [folders, setFolders] = useState([]);
 		const token = sessionStorage.getItem("token");
 		const name = getUserId(sessionStorage.getItem("token"));
+		const onHover = (index) => {
+			setHoveredFolder(index);
+		};
+
+		const onLeave = () => {
+			setHoveredFolder(null);
+		};
+
 		const handleAddFolder = async (folderName) => {
 			{
 				const api = host + dashbaord_controller + "create-folder";
@@ -146,7 +157,7 @@ function Dashboard() {
 								width="20"
 								height="20"
 								fill="currentColor"
-								class="bi bi-plus-lg"
+								className="bi bi-plus-lg"
 								viewBox="0 0 20 20"
 							>
 								<path
@@ -160,7 +171,12 @@ function Dashboard() {
 					<hr style={separator} />
 					<div style={foldersStyle}>
 						{folders.map((folder, index) => (
-							<div key={index} style={folderStyle}>
+							<div
+								key={index}
+								style={folderStyle(index === hoveredFolder)}
+								onMouseEnter={() => onHover(index)}
+								onMouseLeave={onLeave}
+							>
 								<a
 									href={"/preds/" + folder}
 									style={{ color: "inherit", textDecoration: "none" }}
@@ -169,7 +185,8 @@ function Dashboard() {
 									<h4>{folder}</h4> {/* Color set to white */}
 								</a>
 								<button
-									style={buttonStyle}
+									type="button"
+									class="btn btn-outline-danger"
 									onClick={() => handleDeleteClick(folder)}
 								>
 									<svg
@@ -178,9 +195,9 @@ function Dashboard() {
 										height="16"
 										fill="currentColor"
 										class="bi bi-trash-fill"
-										viewBox="0 0 20 20"
+										viewBox="0 0 16 16"
 									>
-										<path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+										<path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"></path>
 									</svg>
 									Delete
 								</button>
