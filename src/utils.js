@@ -48,10 +48,55 @@ export const validatePassword = (password) => {
 	return re.test(password);
 };
 
+// export const downloads = async (folder) => {
+// 	try {
+// 		const s3 = new AWS.S3();
+// 		const bucketName = "canyon-creek-cuts";
+// 		const s3_folder = `cropped_images/${folder}/Predicted_images/`;
+// 		const zip = new JSZip();
+
+// 		// List all objects in the folder
+// 		const params = {
+// 			Bucket: bucketName,
+// 			Prefix: s3_folder,
+// 		};
+// 		const { Contents } = await s3.listObjectsV2(params).promise();
+
+// 		// Download and add each file to the ZIP
+// 		const downloadPromises = Contents.map(async (content) => {
+// 			const downloadParams = {
+// 				Bucket: bucketName,
+// 				Key: content.Key,
+// 			};
+// 			const data = await s3.getObject(downloadParams).promise();
+// 			const fileName = content.Key.split("/").pop();
+// 			console.log("Downloaded file", fileName);
+// 			zip.file(fileName, data.Body);
+// 		});
+
+// 		await Promise.all(downloadPromises);
+// 		// Generate the ZIP file
+// 		console.log("Generating", folder);
+// 		const blob = await zip.generateAsync({ type: "blob" });
+
+// 		// Create blob link to download
+// 		const url = window.URL.createObjectURL(blob);
+// 		const link = document.createElement("a");
+// 		link.href = url;
+// 		link.setAttribute("download", `segmented_${folder}.zip`);
+// 		document.body.appendChild(link);
+// 		link.click();
+// 		link.parentNode.removeChild(link);
+// 	} catch (err) {
+// 		console.log("Error", err);
+// 		alert(err);
+// 	}
+// };
+
 export const downloads = async (folder) => {
 	try {
 		// List all objects in the folder
-		console.log(folder);
+		const zip = new JSZip();
 		const s3 = new AWS.S3();
 		const bucketName = "canyon-creek-cuts";
 		const s3_folder = `cropped_images/${folder}//Predicted_images/`;
@@ -70,15 +115,29 @@ export const downloads = async (folder) => {
 			};
 			const data = await s3.getObject(downloadParams).promise();
 
-			// Create blob link to download
-			const url = window.URL.createObjectURL(new Blob([data.Body]));
-			const link = document.createElement("a");
-			link.href = url;
-			link.setAttribute("download", content.Key.split("/").pop()); // Set the file name to the last part of the Key
-			document.body.appendChild(link);
-			link.click();
-			link.parentNode.removeChild(link);
+			// // Create blob link to download
+			// const url = window.URL.createObjectURL(new Blob([data.Body]));
+			// const link = document.createElement("a");
+			// link.href = url;
+			// link.setAttribute("download", content.Key.split("/").pop()); // Set the file name to the last part of the Key
+			// document.body.appendChild(link);
+			// link.click();
+			// link.parentNode.removeChild(link);
+			const fileName = content.Key.split("/").pop();
+			console.log("Downloaded file", fileName);
+			zip.file(fileName, data.Body);
 		}
+		console.log("Generating", folder);
+		const blob = await zip.generateAsync({ type: "blob" });
+
+		// Create blob link to download
+		const url = window.URL.createObjectURL(blob); // Use the blob from zip.generateAsync
+		const link = document.createElement("a");
+		link.href = url;
+		link.setAttribute("download", `segmented_${folder}.zip`);
+		document.body.appendChild(link);
+		link.click();
+		link.parentNode.removeChild(link);
 	} catch (err) {
 		console.log("Error", err);
 		alert(err);

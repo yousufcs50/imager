@@ -70,23 +70,51 @@ function Preds() {
 	const [isProcessing, setIsProcessing] = useState(false);
 	const token = sessionStorage.getItem("token");
 
+	// const handleFileUpload = async (event) => {
+	// 	const files = Array.from(event.target.files);
+	// 	setUploadedFiles((prevFiles) => [...prevFiles, ...files]);
+	// 	setUploadedCount(0);
+	// 	try {
+	// 		const totalFiles = files.length;
+
+	// 		const uploadPromises = files.map(async (file, index) => {
+	// 			if (file) {
+	// 				await uploadToS3(folderName, file);
+	// 				setUploadedCount((prevCount) => prevCount + 1);
+	// 				setuploadmessage(`Uploaded ${uploadedCount + 1}/${totalFiles} files`);
+	// 				setUploadCompleteMessage(true);
+	// 			}
+	// 		});
+	// 		await Promise.all(uploadPromises);
+	// 		setuploadmessage(`Uploaded all files`);
+	// 		setUploadCompleteMessage(true);
+	// 	} catch (error) {
+	// 		console.log(error);
+	// 		setModalMessage("Error uploading file");
+	// 		setShowModal(true);
+	// 	}
+	// };
 	const handleFileUpload = async (event) => {
 		const files = Array.from(event.target.files);
 		setUploadedFiles((prevFiles) => [...prevFiles, ...files]);
-		setUploadedCount(0);
+
 		try {
 			const totalFiles = files.length;
+			let uploadedCounter = 0; // Initialize a counter for uploaded files
 
-			const uploadPromises = files.map(async (file, index) => {
+			const uploadPromises = files.map(async (file) => {
 				if (file) {
 					await uploadToS3(folderName, file);
-					setUploadedCount((prevCount) => prevCount + 1);
-					setuploadmessage(`Uploaded ${uploadedCount + 1}/${totalFiles} files`);
+					uploadedCounter++; // Increment the counter each time a file is uploaded
+					setuploadmessage(`Uploading files`);
 					setUploadCompleteMessage(true);
 				}
 			});
-			await Promise.all(uploadPromises);
-			setuploadmessage(`Uploaded all files`);
+
+			await Promise.all(uploadPromises); // Wait for all uploads to finish
+
+			// Update the state only once, after all uploads are done
+			setuploadmessage(`Uploaded ${uploadedCounter}/${totalFiles} files`);
 			setUploadCompleteMessage(true);
 		} catch (error) {
 			console.log(error);
@@ -119,6 +147,8 @@ function Preds() {
 			setShowModal(true);
 		} catch (error) {
 			console.error("Error in request:", error);
+			setModalMessage("Error getting predictions");
+			setShowModal(true);
 			return null;
 		}
 	};
