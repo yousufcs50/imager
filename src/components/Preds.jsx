@@ -66,18 +66,22 @@ function Preds() {
 	const [modalMessage, setModalMessage] = useState("");
 	const [uploadCompleteMessage, setUploadCompleteMessage] = useState(false);
 	const [uploadmessage, setuploadmessage] = useState("");
+	const [uploadedCount, setUploadedCount] = useState(0); // New state variable for keeping track of uploaded files count
+	const [isProcessing, setIsProcessing] = useState(false);
 	const token = sessionStorage.getItem("token");
 
 	const handleFileUpload = async (event) => {
 		const files = Array.from(event.target.files);
 		setUploadedFiles((prevFiles) => [...prevFiles, ...files]);
+		setUploadedCount(0);
 		try {
 			const totalFiles = files.length;
 
 			const uploadPromises = files.map(async (file, index) => {
 				if (file) {
 					await uploadToS3(folderName, file);
-					setuploadmessage(`Uploaded ${index + 1}/${totalFiles} files`);
+					setUploadedCount((prevCount) => prevCount + 1);
+					setuploadmessage(`Uploaded ${uploadedCount + 1}/${totalFiles} files`);
 					setUploadCompleteMessage(true);
 				}
 			});
@@ -91,6 +95,7 @@ function Preds() {
 
 	const pred_folder = async () => {
 		try {
+			setIsProcessing(true);
 			const link = "s3://canyon-creek-cuts/" + folderName + "/";
 			const folder = folderName + "/";
 			const data = { s3_directory_url: link, s3_folder: folder };
@@ -105,6 +110,7 @@ function Preds() {
 
 			// Check if the response contains the s3_directory_url key
 			// if (response.data.s3_directory_url) {
+			setIsProcessing(false);
 			setModalMessage(
 				response.data.number_of_files + " files ready to be downloaded"
 			);
@@ -146,6 +152,9 @@ function Preds() {
 						>
 							Get Predictions
 						</button>
+						{isProcessing && (
+							<div>Your file is being processed. Please wait...</div>
+						)}
 					</div>
 					<hr style={separator} />
 
