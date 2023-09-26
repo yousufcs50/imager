@@ -1,5 +1,5 @@
 const AWS = require("aws-sdk");
-
+const JSZip = require("jszip");
 AWS.config.update({
 	// Example: Create an S3 client
 	accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
