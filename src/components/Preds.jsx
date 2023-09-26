@@ -86,6 +86,8 @@ function Preds() {
 				}
 			});
 			await Promise.all(uploadPromises);
+			setuploadmessage(`Uploaded all files`);
+			setUploadCompleteMessage(true);
 		} catch (error) {
 			console.log(error);
 			setModalMessage("Error uploading file");
