@@ -50,6 +50,16 @@ const buttonStyle = {
 	boxShadow: "0.2% 0 1% rgba(0, 0, 0, 0.1)",
 	cursor: "pointer",
 };
+const folderButton = (isHovered) => ({
+	backgroundColor: isHovered ? "#3a8d40" : "#4CAF50",
+	padding: "2% 2%",
+	display: "space-around",
+	border: "none",
+	borderRadius: "0.5em",
+	color: "white",
+	boxShadow: "0.2% 0 1% rgba(0, 0, 0, 0.1)",
+	cursor: "pointer",
+});
 const popupStyle = {
 	position: "fixed",
 	justifyContent: "space-between",
@@ -69,6 +79,7 @@ function Dashboard() {
 		const [showPopup, setShowPopup] = useState(false);
 		const [showPopup2, setShowPopup2] = useState(false);
 		const [folderToDelete, setFolderToDelete] = useState(null);
+		const [buttonHover, setbuttonHover] = useState(false);
 		const [hoveredFolder, setHoveredFolder] = useState(null);
 		const [folders, setFolders] = useState([]);
 		const token = sessionStorage.getItem("token");
@@ -151,7 +162,12 @@ function Dashboard() {
 				<div style={content}>
 					<div style={containerStyle}>
 						<h2>Welcome {name}</h2>
-						<button style={buttonStyle} onClick={() => setShowPopup(true)}>
+						<button
+							style={folderButton(buttonHover)}
+							onMouseEnter={() => setbuttonHover(true)}
+							onMouseLeave={() => setbuttonHover(false)}
+							onClick={() => setShowPopup(true)}
+						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								width="20"
